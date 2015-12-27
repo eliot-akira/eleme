@@ -1,6 +1,6 @@
 # eleme
 
-An *eleme* is a native or custom element with a few methods for building components, including smart render.
+An eleme ("eliim") is a native or custom element that can render itself with incremental DOM update. It also includes a few shortcuts for composing elements into components.
 
 ## Use
 
@@ -10,17 +10,18 @@ require('eleme');
 
 This prepares the DOM environment and attaches `eleme` to window.
 
-## Example
+### Example
 
 ~~~javascript
 var el = eleme({
-  name: 'div',
+  name: 'my-button',
   init: function() {
     this.counter = 0;
-    this.on('click', function() {
-      this.counter++;
-      this.update();
-    });
+    this.increment();
+    this.on('click', this.increment);
+  },
+  increment: function() {
+    this.counter++;
     this.update();
   },
   update: function() {
@@ -31,21 +32,37 @@ var el = eleme({
 eleme.prepend( el );
 ~~~
 
-## Constructor
+### Constructor
 
-Pass an object to the constructor with these properties:
+`eleme()` takes an object with the following properties. It returns a new or existing element.
 
-- *name* - native/custom element tag, or existing element ID
+**name**
 
-- *init* - optional: function to run on init
+Name can be any of the following:
 
-## Instance methods
+- Native element tag: div, a, etc. This creates a new instance of the element.
 
-render, emit, on, off, once
+- Custom element tag: must have `-` in the name. If there is a custom element of the same name in the DOM already, it will be extended. If not, it will return a new instance.
 
-## Element methods
+- Existing element ID: `#element` - will extend it.
 
-query, queryAll, prepend, append
+**init** (optional) - function to run on init
+
+Other methods can be provided, and they will have `this` binding to the element instance.
+
+### Instance methods
+
+The returned element is extended with the following methods.
+
+**render** - perform incremental DOM update with given HTML string
+
+**emit, on, off, once** - event shortcuts
+
+### Element methods
+
+All elements including `document.body` will have these shortcuts:
+
+**query, queryAll, prepend, append**
 
 ## Based on
 
