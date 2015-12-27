@@ -1,6 +1,6 @@
 # eleme
 
-An eleme ("eliim") is a native or custom element that can render itself with incremental DOM update. It also includes a few shortcuts for composing elements into components.
+An eleme ("eliim") is a native or custom element that can render itself efficiently. It includes a few shortcut methods for composing elements together.
 
 ## Use
 
@@ -56,13 +56,17 @@ The returned element is extended with the following methods.
 
 **render** - perform incremental DOM update with given HTML string
 
+**clone** - create a new element based on current one
+
 **emit, on, off, once** - event shortcuts
 
 ### Element methods
 
-All elements including `document.body` will have these shortcuts:
+All HTML elements will have these shortcuts:
 
 **query, queryAll, prepend, append**
+
+`eleme` itself has the above methods as an alias to `document.body`.
 
 ## Based on
 
