@@ -11,11 +11,10 @@ var createNativeElement = function( args ) {
 
   } else if ( args.name[0] === '<' ) {
 
+    // If it's a custom element, make sure it's registered
     parts = args.name.split(/[\s>]+/);
     parts[0] = parts[0].substr(1);
     if ( parts[0].indexOf('-') >= 0 ) {
-      console.log('register', parts[0]);
-      // It's a custom element, register it
       createCustomElement({
         name: parts[0],
         _registerOnly: true
