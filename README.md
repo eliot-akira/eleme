@@ -12,9 +12,13 @@ This prepares the DOM environment and attaches `eleme` to window.
 
 ### Example
 
+~~~html
+<app-root></app-root>
+~~~
+
 ~~~javascript
-var el = eleme({
-  name: 'my-button',
+eleme({
+  name: 'app-root',
   init: function() {
     this.counter = 0;
     this.increment();
@@ -28,8 +32,6 @@ var el = eleme({
     this.render('<button>'+this.counter+'</button>');
   }
 });
-
-eleme.prepend( el );
 ~~~
 
 ### Constructor
@@ -48,7 +50,30 @@ Name can be any of the following:
 
 **init** (optional) - function to run on init
 
-Other methods can be provided, and they will have `this` binding to the element instance.
+Additional methods can be provided, and they will have `this` binding to the element instance.
+
+#### Quick construct
+
+For a shorter syntax, use: `eleme( name, init )` or `eleme( name, obj )`
+
+~~~javascript
+eleme('app-root', function() {
+  this.render( template );
+  this.on('ping', function(e) {
+    this.emit('pong', e.detail);
+  });
+});
+~~~
+
+You can also pass an entire tag or template as the name.
+
+~~~javascript
+eleme('<input type="password">', function() {
+  this.on('change', doSomething);
+});
+~~~
+
+It must have a single root. If the root is a custom element, it will be registered if it hasn't already.
 
 ### Instance methods
 
@@ -66,7 +91,19 @@ All HTML elements will have these shortcuts:
 
 **query, queryAll, prepend, append**
 
-`eleme` itself has the above methods as an alias to `document.body`.
+`eleme` itself has the above methods as an alias to `document.body`. It also has event shortcuts, so it can be used as an event hub for the whole application.
+
+### Template
+
+The browserify transform [`stringify`](https://github.com/JohnPostlethwait/stringify) is recommended for keeping template HTML in its own file.
+
+~~~javascript
+var template = require('app.html');
+
+eleme('app-root', function() {
+  this.render( template );
+});
+~~~
 
 ## Based on
 

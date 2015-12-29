@@ -1,10 +1,16 @@
 var iDOM = require("incremental-dom");
 var parse = require("html-parse-stringify").parse;
+var temp = document.createElement('div');
+
+var decodeHTML = function( str ) {
+  temp.innerHTML = str;
+  return temp.innerHTML;
+};
 
 var renderAstNode = function( node ) {
 
   if ( node.type === 'text' )
-    return iDOM.text( node.content );
+    return iDOM.text( decodeHTML(node.content) );
 
   if ( node.type !== 'tag' ) return;
 
